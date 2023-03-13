@@ -1,0 +1,37 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: DockerfileProd
+      args:
+        - PYTHON_VERSION=python:3.9-slim
+    image: 'dhananjaypuri/counter-app'
+    ports:
+      - "5000"
+    networks:
+      - netone
+    volumes:
+      - mydata:/app
+    depends_on:
+      - redis
+
+  redis:
+    image: ${REDIS_VERSION}
+    networks:
+      - netone
+  
+  web:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - netone
+
+volumes:
+  mydata:
+networks:
+  netone:
+

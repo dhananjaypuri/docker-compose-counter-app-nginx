@@ -1,0 +1,11 @@
+ARG PYTHON_VERSION
+
+FROM $PYTHON_VERSION
+
+WORKDIR /app
+
+COPY . /app/
+
+RUN pip install -r requirement.txt
+
+CMD gunicorn --bind 0.0.0.0:5000 wsgi:app
